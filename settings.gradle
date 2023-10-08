@@ -16,3 +16,4 @@ rootProject.name = "SignIn Challenge"
 include ':app'
 include ':core:common'
 include ':signin:domain'
+include ':signin:data'
