@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "SignIn Challenge"
 include ':app'
 include ':core:common'
+include ':signin:domain'
