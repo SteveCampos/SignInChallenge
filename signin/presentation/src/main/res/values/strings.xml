@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="msg_email">Email</string>
+    <string name="msg_continue">Continue</string>
+    <string name="msg_or">or</string>
+    <string name="msg_facebook_signin">Continue with Facebook</string>
+    <string name="msg_google_signin">Continue with Google</string>
+    <string name="msg_apple_signin">Continue with Apple</string>
+    <string name="msg_dont_have_an_account">Don\'t have an account?</string>
+    <string name="msg_sign_up">Sign up</string>
+    <string name="msg_forgot_your_password">Forgot your password?</string>
+    <string name="msg_back">Back</string>
+    <string name="msg_hi">Hi!</string>
+    <string name="msg_default_error">Oops! Error occurred, please try again!</string>
+    <string name="msg_login">Login\n</string>
+    <string name="msg_password">Password</string>
+    <string name="msg_hide">Hide</string>
+    <string name="msg_show">View</string>
+</resources>

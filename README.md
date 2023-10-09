@@ -35,3 +35,9 @@ To simulate REST API services , we are utilizing **Reqres.in**, a service that m
 3. Build and run the application on an emulator or physical device.
 
 Feel free to explore the code, contribute to the project, or utilize it as a reference for your own Android applications. We welcome feedback, bug reports, and feature requests from the community to enhance this project further. Happy coding! 🚀😊
+
+**Jetpack Compose Screens:**
+
+![alt text](https://i.imgur.com/Oq2o0Fb.png)
+
+![alt text](https://i.imgur.com/ue78SXt.png)

@@ -1,0 +1,22 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "SignIn Challenge"
+include ':app'
+include ':core:common'
+include ':signin:domain'
+include ':signin:data'
+include ':signin:presentation'
+include ':core:designsystem'
+include ':home:presentation'
