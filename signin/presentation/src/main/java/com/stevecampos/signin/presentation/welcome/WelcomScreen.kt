@@ -241,7 +241,10 @@ fun PrimaryButton(
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Green40)
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Green40,
+            disabledBackgroundColor = Color.DarkGray
+        )
     ) {
         Text(
             text,
