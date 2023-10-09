@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.stevecampos.core.designsystem.theme.Black90
 import com.stevecampos.core.designsystem.theme.Green40
 import com.stevecampos.signin.domain.entities.User
 import com.stevecampos.signin.presentation.R
@@ -83,7 +84,7 @@ fun WelcomeScreen(
     Box(
         Modifier
             .fillMaxSize()
-            .background(color = Color(0xff1B1517))
+            .background(color = Black90)
     ) {
 
         IconButton(
@@ -136,6 +137,7 @@ fun WelcomeScreen(
                     onValueChange = {
                         handleEvent.invoke(WelcomeScreenEvent.OnEmailChanged(it))
                     },
+                    singleLine = true,
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.White,
                         focusedLabelColor = Color.DarkGray,

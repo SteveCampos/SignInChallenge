@@ -23,7 +23,7 @@ class SignInRemote(private val api: SignInApiService) : SignInRepository {
             User(
                 email = email,
                 names = "Steve Campos",
-                photoUrl = ""
+                photoUrl = "https://media.licdn.com/dms/image/C4E03AQGqvLLdQwaT6w/profile-displayphoto-shrink_200_200/0/1580079394722?e=1702512000&v=beta&t=H_wK-SdyrvZmRaJkkqIyHjDykLZOhBEUM18oOMPOpZs"
             )
         )
         return Result.Error(Failure.NotFound())
