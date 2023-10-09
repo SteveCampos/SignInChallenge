@@ -52,6 +52,7 @@ android {
 dependencies {
     implementation project(":core:designsystem")
     implementation project(":signin:presentation")
+    implementation project(":home:presentation")
     implementation project(":signin:domain")
 
 
