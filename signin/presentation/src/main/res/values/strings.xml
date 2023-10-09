@@ -12,4 +12,8 @@
     <string name="msg_back">Back</string>
     <string name="msg_hi">Hi!</string>
     <string name="msg_default_error">Oops! Error occurred, please try again!</string>
+    <string name="msg_login">Login\n</string>
+    <string name="msg_password">Password</string>
+    <string name="msg_hide">Hide</string>
+    <string name="msg_show">View</string>
 </resources>
