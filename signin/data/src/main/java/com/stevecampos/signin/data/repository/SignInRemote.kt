@@ -18,7 +18,16 @@ class SignInRemote(private val api: SignInApiService) : SignInRepository {
     override suspend fun getUserByEmail(email: String): Result<User> {
 
         // There is no api on reqres.in that returns a user by his email (required to do the sign-in challenge) mocking this behavior
-        val isReqResEmail = email.contains("@reqres.in")
+
+        val userList = listOf(
+            "michael.lawson@reqres.in",
+            "lindsay.ferguson@reqres.in",
+            "tobias.funke@reqres.in",
+            "byron.fields@reqres.in",
+            "george.edwards@reqres.in",
+            "rachel.howell@reqres.in"
+        )
+        val isReqResEmail = userList.contains(email)
         if (isReqResEmail) return Result.Success(
             User(
                 email = email,
