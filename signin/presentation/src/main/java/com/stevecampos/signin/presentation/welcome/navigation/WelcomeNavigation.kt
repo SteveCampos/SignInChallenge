@@ -1,11 +1,12 @@
 package com.stevecampos.signin.presentation.welcome.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.stevecampos.signin.domain.entities.User
 import com.stevecampos.signin.presentation.welcome.WelcomeScreen
-import com.stevecampos.signin.presentation.welcome.WelcomeScreenState
-import kotlinx.coroutines.flow.MutableSharedFlow
+import com.stevecampos.signin.presentation.welcome.WelcomeViewModel
 
 class WelcomeNavigation {
     companion object {
@@ -20,10 +21,13 @@ fun NavGraphBuilder.welcomeScreen(
     onBackPressed: () -> Unit
 ) {
     composable(WelcomeNavigation.route) {
+
+        val viewModel = hiltViewModel<WelcomeViewModel>()
+        val state = viewModel.screenState.collectAsStateWithLifecycle().value
         WelcomeScreen(
-            state = WelcomeScreenState(email = "steve.campos@email.com"),
-            handleEvent = {},
-            actions = MutableSharedFlow(replay = 0),
+            state = state,
+            handleEvent = viewModel::handleEvent,
+            actions = viewModel.action,
             navigateToLogin = navigateToLogin,
             navigateToSignUp = navigateToSignUp,
             onBackPressed = onBackPressed

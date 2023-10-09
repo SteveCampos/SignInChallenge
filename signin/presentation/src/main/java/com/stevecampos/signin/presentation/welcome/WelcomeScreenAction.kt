@@ -8,5 +8,5 @@ sealed class WelcomeScreenAction {
 
     data class NavigateToLogin(val user: User) : WelcomeScreenAction()
 
-    data class DisplayMessage(val message: String) : WelcomeScreenAction()
+    object DisplayDefaultMessage : WelcomeScreenAction()
 }

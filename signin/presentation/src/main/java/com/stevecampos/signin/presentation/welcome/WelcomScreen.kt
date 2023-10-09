@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.stevecampos.core.designsystem.theme.Green40
 import com.stevecampos.signin.domain.entities.User
 import com.stevecampos.signin.presentation.R
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -70,7 +71,7 @@ fun WelcomeScreen(
                     navigateToSignUp(action.email, action.canEditEmail)
                 }
 
-                is WelcomeScreenAction.DisplayMessage -> {
+                is WelcomeScreenAction.DisplayDefaultMessage -> {
                     scope.launch {
                         Toast.makeText(context, R.string.msg_default_error, Toast.LENGTH_SHORT)
                             .show()
@@ -135,22 +136,19 @@ fun WelcomeScreen(
                     onValueChange = {
                         handleEvent.invoke(WelcomeScreenEvent.OnEmailChanged(it))
                     },
-                    colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.White,
+                        focusedLabelColor = Color.DarkGray,
+                        focusedIndicatorColor = Green40,
+                        cursorColor = Color.Gray
+                    ),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
-                Button(
+
+                PrimaryButton(text = stringResource(id = R.string.msg_continue),
                     enabled = state.emailMeetRequirements(),
-                    onClick = { handleEvent.invoke(WelcomeScreenEvent.OnSubmitEmailButtonClicked) },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
-                ) {
-                    Text(
-                        stringResource(id = R.string.msg_continue),
-                        style = MaterialTheme.typography.button.copy(color = Color.White),
-                        modifier = Modifier.padding(vertical = 8.dp)
-                    )
-                }
+                    onClick = { handleEvent.invoke(WelcomeScreenEvent.OnSubmitEmailButtonClicked) })
                 Text(
                     text = stringResource(id = R.string.msg_or),
                     color = Color.White,
@@ -178,7 +176,7 @@ fun WelcomeScreen(
                     )
                     Text(
                         text = stringResource(id = R.string.msg_sign_up),
-                        color = MaterialTheme.colors.primary,
+                        color = Green40,//MaterialTheme.colors.primary,
                         style = MaterialTheme.typography.button,
                         modifier = Modifier.clickable(onClick = {
                             handleEvent.invoke(
@@ -189,7 +187,7 @@ fun WelcomeScreen(
                 }
                 Text(
                     text = stringResource(id = R.string.msg_forgot_your_password),
-                    color = MaterialTheme.colors.primary,
+                    color = Green40, //MaterialTheme.colors.primary,
                     style = MaterialTheme.typography.button,
                     modifier = Modifier.clickable(onClick = { handleEvent.invoke(WelcomeScreenEvent.OnForgetPasswordLinkClicked) })
                 )
@@ -231,6 +229,25 @@ fun SocialButton(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
+    }
+}
+
+@Composable
+fun PrimaryButton(
+    text: String, enabled: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier
+) {
+    Button(
+        enabled = enabled,
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Green40)
+    ) {
+        Text(
+            text,
+            style = MaterialTheme.typography.button.copy(color = Color.White),
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
     }
 }
 
