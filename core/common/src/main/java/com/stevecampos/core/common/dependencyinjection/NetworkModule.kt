@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
@@ -23,6 +24,7 @@ class NetworkModule {
             .client(
                 OkHttpClient
                     .Builder()
+                    .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .build()
             )
             .baseUrl(baseUrl)
@@ -32,5 +34,5 @@ class NetworkModule {
     @Named("baseUrl")
     @Provides
     @Singleton
-    fun provideBaseUrl(): String = "https://https://reqres.in/"
+    fun provideBaseUrl(): String = "https://reqres.in/"
 }
