@@ -1,4 +1,4 @@
-package com.stevecampos.signinchallenge.ui.theme
+package com.stevecampos.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
