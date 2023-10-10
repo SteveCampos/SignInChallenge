@@ -21,7 +21,6 @@ class SignUpNavigation {
 
 fun NavGraphBuilder.signUpScreen(
     navigateToHome: () -> Unit,
-    navigateToForgotPassword: () -> Unit,
     onBackClicked: () -> Unit
 ) {
     composable(SignUpNavigation.route) {
@@ -30,9 +29,8 @@ fun NavGraphBuilder.signUpScreen(
         SignUpScreen(
             state = state,
             handleEvent = viewModel::handleEvent,
-            action = viewModel.action,
+            actions = viewModel.action,
             navigateToHome = navigateToHome,
-            navigateToForgotPassword = navigateToForgotPassword,
             onBackClicked = onBackClicked
         )
     }

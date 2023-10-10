@@ -1,6 +1,6 @@
 package com.stevecampos.signin.presentation.signup
 
 sealed class SignUpScreenEvent {
-    object OnPasswordChanged: SignUpScreenEvent()
+    data class OnPasswordChanged(val password: String): SignUpScreenEvent()
     object OnSignUpButtonClicked: SignUpScreenEvent()
 }
