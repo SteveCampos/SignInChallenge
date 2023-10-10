@@ -7,6 +7,7 @@ import com.stevecampos.home.presentation.navigation.HomeNavigation
 import com.stevecampos.home.presentation.navigation.homeScreen
 import com.stevecampos.signin.presentation.login.navigation.LoginNavigation
 import com.stevecampos.signin.presentation.login.navigation.loginScreen
+import com.stevecampos.signin.presentation.signup.navigation.signUpScreen
 import com.stevecampos.signin.presentation.welcome.navigation.WelcomeNavigation
 import com.stevecampos.signin.presentation.welcome.navigation.welcomeScreen
 
@@ -37,6 +38,14 @@ fun AppNavigation() {
             onBackClicked = {
                 navController.popBackStack()
             }
+        )
+        signUpScreen(
+            navigateToHome = {
+                val route = HomeNavigation.getRouteToNavigate()
+                navController.navigate(route)
+            },
+            navigateToForgotPassword = {},
+            onBackClicked = { navController.popBackStack() }
         )
         homeScreen()
     }
