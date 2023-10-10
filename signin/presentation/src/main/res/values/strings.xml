@@ -12,8 +12,12 @@
     <string name="msg_back">Back</string>
     <string name="msg_hi">Hi!</string>
     <string name="msg_default_error">Oops! Error occurred, please try again!</string>
-    <string name="msg_login">Login\n</string>
+    <string name="msg_login">Login</string>
     <string name="msg_password">Password</string>
     <string name="msg_hide">Hide</string>
     <string name="msg_show">View</string>
+    <string name="msg_agree_and_continue">Agree and continue</string>
+    <string name="msg_terms_of_service">By selecting Agree and continue below,\nI agree to Terms of Service and Privacy Policy</string>
+    <string name="msg_you_dont_have_an_account">Looks like you don\'t have an account.\nLet\'s create a new account for\n%s</string>
+    <string name="msg_name">Name</string>
 </resources>
