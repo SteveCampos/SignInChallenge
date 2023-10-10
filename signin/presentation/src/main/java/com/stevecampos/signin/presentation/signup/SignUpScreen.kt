@@ -1,6 +1,4 @@
-@file:OptIn(ExperimentalCoilApi::class)
-
-package com.stevecampos.signin.presentation.login
+package com.stevecampos.signin.presentation.signup
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -9,12 +7,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -40,14 +36,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
-import coil.transform.CircleCropTransformation
 import com.stevecampos.core.designsystem.theme.Black90
 import com.stevecampos.core.designsystem.theme.Green40
 import com.stevecampos.signin.presentation.R
@@ -56,28 +51,24 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(
-    state: LoginScreenState,
-    handleEvent: (LoginScreenEvent) -> Unit,
-    actions: SharedFlow<LoginScreenAction>,
+fun SignUpScreen(
+    state: SignUpScreenState,
+    handleEvent: (SignUpScreenEvent) -> Unit,
+    actions: SharedFlow<SignUpScreenAction>,
     navigateToHome: () -> Unit,
-    navigateToForgotPassword: () -> Unit,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
 ) {
+
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     LaunchedEffect(key1 = Unit) {
         actions.collect { action ->
             when (action) {
-                is LoginScreenAction.NavigateToHome -> {
+                is SignUpScreenAction.NavigateToHome -> {
                     navigateToHome()
                 }
 
-                is LoginScreenAction.NavigateToForgotPassword -> {
-                    navigateToForgotPassword()
-                }
-
-                is LoginScreenAction.DisplayErrorMessage -> {
+                is SignUpScreenAction.DisplayDefaultError -> {
                     scope.launch {
                         Toast.makeText(context, R.string.msg_default_error, Toast.LENGTH_SHORT)
                             .show()
@@ -87,12 +78,8 @@ fun LoginScreen(
         }
     }
 
-    val painter = rememberImagePainter(data = state.user.photoUrl, builder = {
-        transformations(
-            CircleCropTransformation()
-        )
-    })
     var isPasswordVisible by rememberSaveable { mutableStateOf(false) }
+    var name by rememberSaveable { mutableStateOf("Steve Campos") }
 
     Box(
         Modifier
@@ -117,14 +104,13 @@ fun LoginScreen(
                 .align(Alignment.TopEnd),
             contentScale = ContentScale.FillHeight
         )
-
         Column(
             Modifier
                 .fillMaxWidth()
                 .padding(top = 172.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.msg_login),
+                text = stringResource(id = R.string.msg_sign_up),
                 style = MaterialTheme.typography.h3.copy(
                     color = Color.White, fontWeight = FontWeight.Bold
                 ),
@@ -142,35 +128,28 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Top)
             ) {
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    Image(
-                        painter = painter,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(72.dp)
-                    )
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(
-                            text = state.user.names,
-                            style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
-                            color = Color.White
-                        )
-                        Text(
-                            text = state.user.email,
-                            style = MaterialTheme.typography.body1,
-                            color = Color.White
-                        )
-                    }
-                }
+                YouDontHaveAccountText(email = state.initialEmail)
+                TextField(
+                    value = name,
+                    label = { Text(stringResource(id = R.string.msg_name)) },
+                    onValueChange = {
+                        name = it
+                    },
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.White,
+                        focusedLabelColor = Color.DarkGray,
+                        focusedIndicatorColor = Green40,
+                        cursorColor = Color.Gray
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                )
                 TextField(
                     value = state.password,
                     label = { Text(stringResource(id = R.string.msg_password)) },
                     onValueChange = {
-                        handleEvent.invoke(LoginScreenEvent.OnPasswordChanged(it))
+                        handleEvent.invoke(SignUpScreenEvent.OnPasswordChanged(it))
                     },
                     singleLine = true,
                     colors = TextFieldDefaults.textFieldColors(
@@ -182,8 +161,7 @@ fun LoginScreen(
                     shape = RoundedCornerShape(8.dp),
                     visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
-                        Text(
-                            text = stringResource(id = if (isPasswordVisible) R.string.msg_hide else R.string.msg_show),
+                        Text(text = stringResource(id = if (isPasswordVisible) R.string.msg_hide else R.string.msg_show),
                             style = MaterialTheme.typography.overline,
                             modifier = Modifier.clickable {
                                 isPasswordVisible = !isPasswordVisible
@@ -191,18 +169,63 @@ fun LoginScreen(
                     },
                     modifier = Modifier.fillMaxWidth(),
                 )
+                TermsOfServiceText()
 
-                PrimaryButton(text = stringResource(id = R.string.msg_continue),
+                PrimaryButton(text = stringResource(id = R.string.msg_agree_and_continue),
                     enabled = state.passwordMeetRequirements(),
-                    onClick = { handleEvent.invoke(LoginScreenEvent.OnLoginButtonClicked) })
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = stringResource(id = R.string.msg_forgot_your_password),
-                    color = Green40, //MaterialTheme.colors.primary,
-                    style = MaterialTheme.typography.button,
-                    modifier = Modifier.clickable(onClick = { handleEvent.invoke(LoginScreenEvent.OnForgotPasswordLinkClicked) })
-                )
+                    onClick = { handleEvent.invoke(SignUpScreenEvent.OnSignUpButtonClicked) })
             }
         }
     }
 }
+
+@Composable
+fun TermsOfServiceText() {
+    val text = stringResource(id = R.string.msg_terms_of_service)
+
+    val highlightText = "Terms of Service and Privacy Policy"
+
+    val annotatedText = remember {
+        buildAnnotatedString {
+            append(text)
+            addStyle(
+                style = SpanStyle(fontWeight = FontWeight.Bold, color = Green40),
+                start = text.indexOf(highlightText),
+                end = text.indexOf(highlightText) + highlightText.length
+            )
+        }
+    }
+
+    Text(
+        text = annotatedText,
+        style = MaterialTheme.typography.body1.copy(
+            color = Color.White,
+            fontWeight = FontWeight.Light
+        )
+    )
+}
+
+@Composable
+fun YouDontHaveAccountText(email: String) {
+    val text = stringResource(id = R.string.msg_you_dont_have_an_account, email)
+
+    val annotatedText = remember {
+        buildAnnotatedString {
+            append(text)
+            addStyle(
+                style = SpanStyle(fontWeight = FontWeight.Bold),
+                start = text.indexOf(email),
+                end = text.indexOf(email) + email.length
+            )
+        }
+    }
+
+    Text(
+        text = annotatedText,
+        style = MaterialTheme.typography.body1.copy(
+            color = Color.White,
+            fontWeight = FontWeight.Light
+        )
+    )
+}
+
